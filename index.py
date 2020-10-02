@@ -1,23 +1,54 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, render_template
+from flask_cors import CORS
 import json
 from colors import colorData
 with open('newColors.json') as colorlisting:
   data = json.load(colorlisting)
 
 
+# app = Flask(__name__)
 app = Flask(__name__)
+cors = CORS(app)
+
 app.config['JSON_AS_ASCII'] = False
 app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 @app.route('/')
 def index():
-    return "Colors"
-@app.route('/colors')
-def colors():
-    colorlisted = []
+    # return "Colors & Design Api"
+  return render_template('index.html', colors = len(data))
+
+@app.route('/colors', methods=['GET'])
+def colorFull():
+  if request.method =='GET':    
+    colorsinlist = []
     for color in colorData:
-      colorlisted.append(color)
-    return jsonify(colorlisted)
-    
+      if color["id"] < 1000:
+      # for x in range(5):
+        colorsinlist.append(color)
+  # return "jsonify(colorsinlist)"
+  return jsonify(colorsinlist)
+
+# 1 = 1000 - 1999
+# 2 = 2000 - 1999
+# limit 1000
+# Skip -- Pages
+
+
+
+
+@app.route('/colors/full/<pagenum>', methods=['GET'])
+def colorFullpage(pagenum=None):
+  if request.method =='GET':    
+    colorsinlist = []
+    pageAmount = 1000
+    pageSkip = int(pagenum) * 1000
+    pageEnding = pageSkip + 1000
+
+    for color in colorData:
+      if color["id"] < pageEnding and color["id"] > pageSkip - 1:
+        colorsinlist.append(color)
+  return jsonify(colorsinlist)
+
 @app.route('/colors/search/<name>', methods=['GET'])
 def colornames(name=None):
   if request.method =='GET':

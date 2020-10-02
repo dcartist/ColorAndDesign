@@ -1,0 +1,26 @@
+<!doctype html>
+<title>Colors and Design</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+<div>
+    <h1>COLORS AND DESIGN</h1>
+    <p>
+        This is an API created in python with the flask framework using a JSON file with {% if colors%} over {{ colors}}{%else %} more than 25,000{% endif %} colors! Created during a 6 hr hackathon by Paula Bannerman.
+    </p>
+
+    Routes:
+    <hr>
+<div>
+    <ul>
+        <li>/colors/full/<insert Number> is for seeing the page of a listing of 1000 colors (pagination) </li>
+            <li>/colors/search/<insert Name> is for finding the specific name of a color</li>
+            <li>/colors/id/<insert id> find a color by id</li>
+            <li>/colors/digit/<insert lelter or number> to find a color by the first letter or digit</li>
+            <li>/colors/snippet/<insert Snippet> find a color by a snippet of the name</li>
+            <li>/colors/hex/snippet/<insert Snippet> find a color by a snippet of the hex code</li>
+            <li>/colors/hex/code/<insert hex code> find a color by hex code</li>
+    </ul>
+</div>
+
+
+</div>
