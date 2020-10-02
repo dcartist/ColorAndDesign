@@ -2,7 +2,6 @@ from flask import Flask, jsonify, request
 import json
 from colors import colorData
 with open('newColors.json') as colorlisting:
-  # data = colorlisting.read()
   data = json.load(colorlisting)
 
 
@@ -18,7 +17,7 @@ def colors():
     for color in colorData:
       colorlisted.append(color)
     return jsonify(colorlisted)
-    # return jsonify(colorData)
+    
 @app.route('/colors/search/<name>', methods=['GET'])
 def colornames(name=None):
   if request.method =='GET':
@@ -26,6 +25,17 @@ def colornames(name=None):
       colorlisted = []
       for color in colorData:
         if name == color['name'] or name.lower() == color['name'].lower():
+         colorlisted.append(color)
+      return(jsonify(colorlisted))
+    else:
+      return "Insert Color Data"
+@app.route('/colors/id/<id>', methods=['GET'])
+def colorbyid(id=None):
+  if request.method =='GET':
+    if id:
+      colorlisted = []
+      for color in colorData:
+        if int(id) == color['id']:
          colorlisted.append(color)
       return(jsonify(colorlisted))
     else:
