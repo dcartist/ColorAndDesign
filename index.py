@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, request, render_template
 from flask_cors import CORS
+
 import json
 from colors import colorData
 with open('newColors.json') as colorlisting:
@@ -10,12 +11,46 @@ with open('newColors.json') as colorlisting:
 app = Flask(__name__)
 cors = CORS(app)
 
+
 app.config['JSON_AS_ASCII'] = False
 app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 @app.route('/')
 def index():
     # return "Colors & Design Api"
   return render_template('index.html', colors = len(data))
+# @app.route('/list')
+# def colorListDisplay():
+#   colorsinlist = []
+#   for color in colorData:
+#     if color["id"] < 1000:
+#       # for x in range(5):
+#       colorsinlist.append(color)
+#   return render_template('colorslist.html', colors = colorsinlist)
+
+@app.route('/list', methods=['GET'])
+def colorListDisplay():
+  if request.method =='GET':    
+    colorsinlist = []
+    for color in colorData:
+      if color["id"] < 1000:
+      # for x in range(5):
+        colorsinlist.append(color)
+  # return "jsonify(colorsinlist)"
+  return render_template('colorslist.html', colors = colorsinlist)
+
+@app.route('/list/<pagenum>', methods=['GET'])
+def colorListDisplayAlt(pagenum=None):
+  if request.method =='GET':    
+    colorsinlist = []
+    pageAmount = 1000
+    pageSkip = int(pagenum) * 1000
+    pageEnding = pageSkip + 1000
+
+    for color in colorData:
+      if color["id"] < pageEnding and color["id"] > pageSkip - 1:
+        colorsinlist.append(color)
+  return render_template('colorslist.html', colors = colorsinlist)
+
 
 @app.route('/colors', methods=['GET'])
 def colorFull():

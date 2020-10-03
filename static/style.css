@@ -1,4 +1,59 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:ital,wght@0,300;0,700;1,300&family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300&display=swap');
+
 body{
-    background: black;
-    color: white;
+    background: white;
+    color: red;
+}
+
+.colorblock{
+    
+    display: grid;
+    grid-template-columns: repeat(8, auto);
+    margin: 0 auto;
+}
+.colorblock p {
+    padding: 10px;
+}
+
+.colorInsert{
+    padding: 5px;
+    height: 70px;
+    width: 70px;
+}
+.cardText{
+    font-family: 'Open Sans', sans-serif;
+    color: black !important;
+    font-size: 14px;
+}
+
+.cardbtn{
+    font-family: 'Open Sans', sans-serif;
+    color: black !important;
+    font-size: 14px;
+    width: 100%;
+}
+
+/* 
+font-family: 'Open Sans', sans-serif;
+font-family: 'Open Sans Condensed', sans-serif;
+ */
+
+
+
+
+
+/* .container h1{
+    margin-top:90%; 
+    left:10px;
+    background-color: black;
+    color:#fff;
+   } */
+
+.lowered {
+    background-color: black;
+    color:#fff;
+}
+
+.card {
+    color: black;
 }
