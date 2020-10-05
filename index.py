@@ -14,20 +14,11 @@ cors = CORS(app)
 
 app.config['JSON_AS_ASCII'] = False
 app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
-@app.route('/')
-def index():
-    # return "Colors & Design Api"
-  return render_template('index.html', colors = len(data))
-# @app.route('/list')
-# def colorListDisplay():
-#   colorsinlist = []
-#   for color in colorData:
-#     if color["id"] < 1000:
-#       # for x in range(5):
-#       colorsinlist.append(color)
-#   return render_template('colorslist.html', colors = colorsinlist)
+@app.route('/api')
+def api_index():
+  return render_template('api.html', colors = len(data))
 
-@app.route('/list', methods=['GET'])
+@app.route('/', methods=['GET'])
 def colorListDisplay():
   if request.method =='GET':    
     colorsinlist = []
@@ -35,10 +26,9 @@ def colorListDisplay():
       if color["id"] < 1000:
       # for x in range(5):
         colorsinlist.append(color)
-  # return "jsonify(colorsinlist)"
   return render_template('colorslist.html', colors = colorsinlist)
 
-@app.route('/list/<pagenum>', methods=['GET'])
+@app.route('/colorlist/<pagenum>', methods=['GET'])
 def colorListDisplayAlt(pagenum=None):
   if request.method =='GET':    
     colorsinlist = []
@@ -62,6 +52,11 @@ def colorFull():
         colorsinlist.append(color)
   # return "jsonify(colorsinlist)"
   return jsonify(colorsinlist)
+
+@app.errorhandler(404)
+def page_not_found(e):
+    # note that we set the 404 status explicitly
+    return render_template('api.html'), 404
 
 # 1 = 1000 - 1999
 # 2 = 2000 - 1999
