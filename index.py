@@ -19,8 +19,8 @@ SWAGGERUI_BLUEPRINT = get_swaggerui_blueprint(
     SWAGGER_URL,
     API_URL,
     config={
-        'app_name': "Colors By Design"
-    }
+        'app_name': "Colors By Design",
+        'SwaggerUIStandalonePreset': {'TopbarPlugin': False}}
 )
 app.register_blueprint(SWAGGERUI_BLUEPRINT, url_prefix=SWAGGER_URL)
 # app.register_blueprint(request_api.get_blueprint())

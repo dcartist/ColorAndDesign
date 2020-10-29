@@ -1,7 +1,7 @@
 {
     "openapi": "3.0.0",
     "info": {
-      "description": "Paula",
+      "description": "Api for more than 25,000 color names. Created by Paula Bannerman",
       "version": "1.0.0",
       "title": "Colors By Design",
       "license": {
