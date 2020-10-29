@@ -1,7 +1,6 @@
 from flask import Flask, jsonify, request, render_template
 from flask_cors import CORS
 from flask_swagger_ui import get_swaggerui_blueprint
-# from routes import request_api
 
 import json
 from colors import colorData
@@ -23,7 +22,6 @@ SWAGGERUI_BLUEPRINT = get_swaggerui_blueprint(
         'SwaggerUIStandalonePreset': {'TopbarPlugin': False}}
 )
 app.register_blueprint(SWAGGERUI_BLUEPRINT, url_prefix=SWAGGER_URL)
-# app.register_blueprint(request_api.get_blueprint())
 
 
 app.config['JSON_AS_ASCII'] = False
