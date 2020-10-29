@@ -101,6 +101,10 @@ def page_not_found(e):
   # return jsonify(colorsinlist)
     # note that we set the 404 status explicitly
     return render_template('404.html'), 404
+@app.errorhandler(400)
+def page_not_found(e):
+    # note that we set the 404 status explicitly
+    return render_template('400.html'), 400
 
 # 1 = 1000 - 1999
 # 2 = 2000 - 1999
