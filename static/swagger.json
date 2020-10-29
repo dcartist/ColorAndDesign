@@ -1,0 +1,222 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "description": "Paula",
+      "version": "1.0.0",
+      "title": "Colors By Design",
+      "license": {
+        "name": "MIT",
+        "url": "https://opensource.org/licenses/MIT"
+      }
+    },
+    "servers": [
+      {
+        "url": "/"
+      }
+    ],
+    "tags": [
+      {
+        "name": "Colors Request",
+        "description": "Example API for requesting and return color requests"
+      }
+    ],
+    "paths": {
+      "/colors": {
+        "get": {
+          "tags": [
+            "Colors"
+          ],
+          "summary": "Returns Colors",
+          "responses": {
+            "200": {
+              "description": "OK",
+              "schema": {
+                "$ref": "#/components/schemas/colorRequest"
+              }
+            }
+          }
+        }
+      },
+      "/colors/id/{id}": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "id",
+            "type": "string"
+          }
+        ],
+        "get": {
+          "tags": [
+            "Colors"
+          ],
+          "summary": "Get colors by Id",
+          
+          "responses": {
+            "200": {
+              "description": "OK",
+              "schema": {
+                "$ref": "#/components/schemas/colorRequest"
+              }
+            },
+            "400": {
+              "description": "Failed. Misunderstood Request."
+            },
+            "404": {
+              "description": "Failed. colors not found."
+            }
+          }
+        }
+      },
+      "/colors/hex/code/{hex}": {
+        "parameters": [
+          {
+            "name": "hex",
+            "in": "path",
+            "required": true,
+            "description": "Hex that we want to match",
+            "type": "string"
+          }
+        ],
+        "get": {
+          "tags": [
+            "Colors"
+          ],
+          "summary": "Get colors by hex",
+          
+          "responses": {
+            "200": {
+              "description": "OK",
+              "schema": {
+                "$ref": "#/components/schemas/colorRequest"
+              }
+            },
+            "400": {
+              "description": "Failed. Misunderstood Request."
+            },
+            "404": {
+              "description": "Failed. colors not found."
+            }
+          }
+        }
+      },
+      "/colors/search/{name}": {
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "description": "Name that we want to match",
+            "type": "string"
+          }
+        ],
+        "get": {
+          "tags": [
+            "Colors"
+          ],
+          "summary": "Get colors with given Name",
+          
+          "responses": {
+            "200": {
+              "description": "OK",
+              "schema": {
+                "$ref": "#/components/schemas/colorRequest"
+              }
+            },
+            "400": {
+              "description": "Failed. Misunderstood Request."
+            },
+            "404": {
+              "description": "Failed. colors not found."
+            }
+          }
+        }
+      },
+      "/colors/snippet/{snippet}": {
+        "parameters": [
+          {
+            "name": "snippet",
+            "in": "path",
+            "required": true,
+            "description": "Snippet of color name to match",
+            "type": "string"
+          }
+        ],
+        "get": {
+          "tags": [
+            "Colors"
+          ],
+          "summary": "Snippet of color name to match",
+          
+          "responses": {
+            "200": {
+              "description": "OK",
+              "schema": {
+                "$ref": "#/components/schemas/colorRequest"
+              }
+            },
+            "400": {
+              "description": "Failed. Misunderstood Request."
+            },
+            "404": {
+              "description": "Failed. colors not found."
+            }
+          }
+        }
+      },
+      "/colors/hex/snippet/{hexSnippet}": {
+        "parameters": [
+          {
+            "name": "hexSnippet",
+            "in": "path",
+            "required": true,
+            "description": "Hex snippet of color to match",
+            "type": "string"
+          }
+        ],
+        "get": {
+          "tags": [
+            "Colors"
+          ],
+          "summary": "Hex snippet of color name to match",
+          
+          "responses": {
+            "200": {
+              "description": "OK",
+              "schema": {
+                "$ref": "#/components/schemas/colorRequest"
+              }
+            },
+            "400": {
+              "description": "Failed. Misunderstood Request."
+            },
+            "404": {
+              "description": "Failed. colors not found."
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "schemas": {
+        "colorRequest": {
+          "type": "object",
+          "properties": {
+            "hex": {
+              "type": "string",
+              "format": "string"
+            },
+            "name": {
+              "type": "string",
+              "format": "name"
+            },
+            "id": {
+              "type": "number",
+              "format": "number"
+            }
+          }
+        }
+      }
+    }
+  }

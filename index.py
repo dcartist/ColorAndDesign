@@ -1,5 +1,7 @@
 from flask import Flask, jsonify, request, render_template
 from flask_cors import CORS
+from flask_swagger_ui import get_swaggerui_blueprint
+# from routes import request_api
 
 import json
 from colors import colorData
@@ -10,13 +12,35 @@ with open('newColors.json') as colorlisting:
 # app = Flask(__name__)
 app = Flask(__name__)
 cors = CORS(app)
+#Swagger info
+SWAGGER_URL = '/swagger'
+API_URL = '/static/swagger.json'
+SWAGGERUI_BLUEPRINT = get_swaggerui_blueprint(
+    SWAGGER_URL,
+    API_URL,
+    config={
+        'app_name': "Colors By Design"
+    }
+)
+app.register_blueprint(SWAGGERUI_BLUEPRINT, url_prefix=SWAGGER_URL)
+# app.register_blueprint(request_api.get_blueprint())
 
 
 app.config['JSON_AS_ASCII'] = False
 app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 @app.route('/api')
-def api_index():
-  return render_template('api.html', colors = len(data))
+def apicolorFull():
+  if request.method =='GET':    
+    colorsinlist = []
+    for color in colorData:
+      if color["id"] < 1000:
+      # for x in range(5):
+        colorsinlist.append(color)
+  # return "jsonify(colorsinlist)"
+  return jsonify(colorsinlist)
+# @app.route('/api')
+# def api_index():
+#   return render_template('api.html', colors = len(data))
 
 @app.route('/', methods=['GET'])
 def colorListDisplay():
@@ -26,7 +50,8 @@ def colorListDisplay():
       if color["id"] < 1000:
       # for x in range(5):
         colorsinlist.append(color)
-  return render_template('colorslist.html', colors = colorsinlist)
+  return render_template('index.html', colors = colorsinlist)
+  # return render_template('colorslist.html', colors = colorsinlist)
 
 @app.route('/colorlist/<pagenum>', methods=['GET'])
 def colorListDisplayAlt(pagenum=None):
@@ -41,6 +66,17 @@ def colorListDisplayAlt(pagenum=None):
         colorsinlist.append(color)
   return render_template('colorslist.html', colors = colorsinlist)
 
+@app.route('/alphabets')
+def alpha():
+  letters = [
+  'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
+  'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
+  'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X',
+  'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f',
+  'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n',
+  'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
+  'w', 'x', 'y', 'z'
+]
 
 @app.route('/colors', methods=['GET'])
 def colorFull():
@@ -55,8 +91,16 @@ def colorFull():
 
 @app.errorhandler(404)
 def page_not_found(e):
+  # if request.method =='GET':    
+  #   colorsinlist = []
+  #   for color in colorData:
+  #     if color["id"] < 1000:
+  #     # for x in range(5):
+  #       colorsinlist.append(color)
+  # # return "jsonify(colorsinlist)"
+  # return jsonify(colorsinlist)
     # note that we set the 404 status explicitly
-    return render_template('api.html'), 404
+    return render_template('404.html'), 404
 
 # 1 = 1000 - 1999
 # 2 = 2000 - 1999
