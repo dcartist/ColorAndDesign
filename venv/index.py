@@ -1,7 +1,16 @@
+"""
+ Things to do with Color Project
+ 1. Re-build the front end on the flask template
+ 2. Add color csv of colors, add some charts of variants of different colors
+ 3. Search field in the flask template
+
+"""
+
+
 from flask import Flask, jsonify, request, render_template
 from flask_cors import CORS
 from flask_swagger_ui import get_swaggerui_blueprint
-from flask_paginate import Pagination, get_page_parameter
+
 import json
 from colors import colorData
 with open('newColors.json') as colorlisting:
@@ -25,6 +34,9 @@ app.register_blueprint(SWAGGERUI_BLUEPRINT, url_prefix=SWAGGER_URL)
 
 app.config['JSON_AS_ASCII'] = False
 app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
+
+
+################TODO Swagger API View
 @app.route('/api')
 def apicolorFull():
   if request.method =='GET':    
@@ -39,6 +51,10 @@ def apicolorFull():
 # def api_index():
 #   return render_template('api.html', colors = len(data))
 
+
+
+
+################TODO Index
 @app.route('/', methods=['GET'])
 def colorListDisplay():
   if request.method =='GET':    
@@ -47,20 +63,40 @@ def colorListDisplay():
       if color["id"] < 1000:
       # for x in range(5):
         colorsinlist.append(color)
-  return render_template('index.html', colors = colorsinlist, pagination=pagination)
+  return render_template('index.html', colors = colorsinlist)
   # return render_template('colorslist.html', colors = colorsinlist)
+
+
+################TODO About Page 
+@app.route ('/about', methods=['GET'])
+def about():
+  return render_template('about.html')
+
+
+
+
+################TODO Index with page number parameter
 @app.route('/<pagenum>', methods=['GET'])
 def colorListDisplayAltPage(pagenum=None):
   if request.method =='GET':    
     colorsinlist = []
     pageAmount = 1000
-    pageSkip = int(pagenum) * 1000
+    try:
+      pageSkip = int(pagenum) * 1000
+    except ValueError:
+      pageSkip = 1000
+      
     pageEnding = pageSkip + 1000
 
     for color in colorData:
       if color["id"] < pageEnding and color["id"] > pageSkip - 1:
         colorsinlist.append(color)
   return render_template('colors.html', colors = colorsinlist)
+
+
+
+
+################TODO Color Listing with page number parameter
 @app.route('/colorlist/<pagenum>', methods=['GET'])
 def colorListDisplayAlt(pagenum=None):
   if request.method =='GET':    
@@ -74,6 +110,8 @@ def colorListDisplayAlt(pagenum=None):
         colorsinlist.append(color)
   return render_template('colorslist.html', colors = colorsinlist)
 
+
+###############* Alphabets
 @app.route('/alphabets')
 def alpha():
   letters = [
@@ -86,6 +124,8 @@ def alpha():
   'w', 'x', 'y', 'z'
 ]
 
+
+################TODO Shows Colors
 @app.route('/colors', methods=['GET'])
 def colorFull():
   if request.method =='GET':    
@@ -97,23 +137,20 @@ def colorFull():
   # return "jsonify(colorsinlist)"
   return jsonify(colorsinlist)
 
+
+
+################TODO Handling Errors
 @app.errorhandler(404)
 def page_not_found(e):
-  # if request.method =='GET':    
-  #   colorsinlist = []
-  #   for color in colorData:
-  #     if color["id"] < 1000:
-  #     # for x in range(5):
-  #       colorsinlist.append(color)
-  # # return "jsonify(colorsinlist)"
-  # return jsonify(colorsinlist)
-    # note that we set the 404 status explicitly
     return render_template('404.html'), 404
 @app.errorhandler(400)
 def page_not_found(e):
     # note that we set the 404 status explicitly
     return render_template('400.html'), 400
 
+
+
+################* SOME NOTES
 # 1 = 1000 - 1999
 # 2 = 2000 - 1999
 # limit 1000
@@ -121,7 +158,7 @@ def page_not_found(e):
 
 
 
-
+################TODO Colors Full pages
 @app.route('/colors/full/<pagenum>', methods=['GET'])
 def colorFullpage(pagenum=None):
   if request.method =='GET':    
@@ -135,6 +172,8 @@ def colorFullpage(pagenum=None):
         colorsinlist.append(color)
   return jsonify(colorsinlist)
 
+
+################TODO SEARCH BY NAME
 @app.route('/colors/search/<name>', methods=['GET'])
 def colornames(name=None):
   if request.method =='GET':
@@ -146,6 +185,9 @@ def colornames(name=None):
       return(jsonify(colorlisted))
     else:
       return "Insert Color Data"
+
+
+################TODO SEARCH BY ID
 @app.route('/colors/id/<id>', methods=['GET'])
 def colorbyid(id=None):
   if request.method =='GET':
@@ -157,6 +199,8 @@ def colorbyid(id=None):
       return(jsonify(colorlisted))
     else:
       return "Insert Color Data"
+
+################TODO Search by First Letter
 @app.route('/colors/digit/<name>', methods=['GET'])
 def colornamesByLetter(name=None):
   if request.method =='GET':
@@ -168,6 +212,8 @@ def colornamesByLetter(name=None):
       return(jsonify(colorlisted))
     else:
       return "Insert Color Data"
+
+################TODO Search by Snippet
 @app.route('/colors/snippet/<snippet>', methods=['GET'])
 def colornamesBysnipet(snippet=None):
   if request.method =='GET':
@@ -179,6 +225,9 @@ def colornamesBysnipet(snippet=None):
       return(jsonify(colorlisted))
     else:
       return "Insert Color Data"
+
+
+################TODO  Search by Hex Value snippet
 @app.route('/colors/hex/snippet/<snippet>', methods=['GET'])
 def colornamesByHexsnipet(snippet=None):
   if request.method =='GET':
@@ -190,6 +239,8 @@ def colornamesByHexsnipet(snippet=None):
       return(jsonify(colorlisted))
     else:
       return "Insert Color Data"
+
+################TODO Search by Hex Code
 @app.route('/colors/hex/code/<name>', methods=['GET'])
 def colorsbyHex(name=None):
   if request.method =='GET':
@@ -201,4 +252,6 @@ def colorsbyHex(name=None):
       return(jsonify(colorlisted))
     else:
       return "Insert Color Data"
+
+################TODO Run App
 # app.run(port=3000, debug=True)
