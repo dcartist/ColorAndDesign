@@ -51,6 +51,27 @@ def colorListDisplay():
   return render_template('index.html', colors = colorsinlist)
   # return render_template('colorslist.html', colors = colorsinlist)
 
+@app.route ('/about', methods=['GET'])
+def about():
+  return render_template('about.html')
+
+@app.route('/<pagenum>', methods=['GET'])
+def colorListDisplayAltPage(pagenum=None):
+  if request.method =='GET':    
+    colorsinlist = []
+    pageAmount = 1000
+    try:
+      pageSkip = int(pagenum) * 1000
+    except ValueError:
+      pageSkip = 1000
+      
+    pageEnding = pageSkip + 1000
+
+    for color in colorData:
+      if color["id"] < pageEnding and color["id"] > pageSkip - 1:
+        colorsinlist.append(color)
+  return render_template('colors.html', colors = colorsinlist)
+
 @app.route('/colorlist/<pagenum>', methods=['GET'])
 def colorListDisplayAlt(pagenum=None):
   if request.method =='GET':    

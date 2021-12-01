@@ -1,0 +1,8 @@
+.vercel
+__pycache__
+
+/venv/bin
+/venv/lib
+/venv/include
+
+__pycache__
